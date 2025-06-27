@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Custom Item Worth Calculator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+  body {
+    background: #0B0D17;
+    color: #E1E6F9;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    background: #1C1F2A;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #0A84FFAA;
+    width: 400px;
+    padding: 25px 30px;
+  }
+
+  h1 {
+    font-weight: 600;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #0A84FF;
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #A9B0CF;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    background: #2B2F44;
+    color: #E1E6F9;
+    box-shadow: inset 0 0 8px #0A84FF33;
+  }
+
+  .multiplier {
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #A9B0CF;
+    user-select: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .multiplier input[type="checkbox"] {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+    accent-color: #0A84FF;
+    cursor: pointer;
+  }
+
+  .result {
+    margin-top: 30px;
+    background: #12152B;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 10px #0A84FF55;
+  }
+
+  .result div {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+  }
+
+  .logo-row {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .logo-row img {
+    height: 45px;
+    margin: 0 10px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-row">
+      <img src="https://cdn.roninchain.com/mavis-mkp/statics/icons/ronin-market-logo-4.png" alt="Ronin Logo" />
+      <img src="https://cdn.roninchain.com/ronin/2020/erc1155/0xcc451977a4be9adee892f7e610fe3e3b3927b5a1/logo.png" alt="Lumitera Logo" />
+    </div>
+    <h1>Custom Item Calculator</h1>
+    
+    <label for="priceInput">Price (LUA)</label>
+    <input type="number" id="priceInput" step="0.0001" min="0" placeholder="Masukkan harga item" value="0" />
+
+    <label for="worthInput">Worth (Value)</label>
+    <input type="number" id="worthInput" step="1" min="0" placeholder="Masukkan nilai item" value="0" />
+
+    <label for="quantityInput">Jumlah Item</label>
+    <input type="number" id="quantityInput" step="1" min="1" placeholder="Masukkan jumlah item" value="1" />
+
+    <div class="multiplier">
+      <label for="multiplier3x">3x Multiplier</label>
+      <input type="checkbox" id="multiplier3x" checked />
+    </div>
+
+    <div class="result" id="result">
+      <div>Wealth: -</div>
+      <div>Worth: -</div>
+      <div>Price: -</div>
+      <div>Worth / Price (W/P): -</div>
+    </div>
+  </div>
+
+<script>
+  const priceInput = document.getElementById('priceInput');
+  const worthInput = document.getElementById('worthInput');
+  const quantityInput = document.getElementById('quantityInput');
+  const multiplier3xCheckbox = document.getElementById('multiplier3x');
+  const resultDiv = document.getElementById('result');
+
+  function calculate() {
+    let price = parseFloat(priceInput.value);
+    let worth = parseFloat(worthInput.value);
+    let quantity = parseInt(quantityInput.value);
+    if (isNaN(price) || price < 0) price = 0;
+    if (isNaN(worth) || worth < 0) worth = 0;
+    if (isNaN(quantity) || quantity < 1) quantity = 1;
+
+    const multiplier = multiplier3xCheckbox.checked ? 3 : 1;
+
+    const totalWorth = worth * quantity;
+    const totalPrice = price * quantity;
+    const wealth = totalWorth * multiplier;
+    const totalCost = totalPrice * multiplier;
+
+    const wp = totalCost > 0 ? (wealth / totalCost).toFixed(2) : '-';
+
+    resultDiv.innerHTML = `
+      <div>Wealth: <span style="color:#0A84FF;">${wealth.toFixed(2)}</span></div>
+      <div>Worth: ${totalWorth.toFixed(2)}</div>
+      <div>Price: ${totalCost.toFixed(4)} LUA</div>
+      <div>Worth / Price (W/P): ${wp}%</div>
+    `;
+  }
+
+  priceInput.addEventListener('input', calculate);
+  worthInput.addEventListener('input', calculate);
+  quantityInput.addEventListener('input', calculate);
+  multiplier3xCheckbox.addEventListener('change', calculate);
+
+  calculate();
+</script>
+
+</body>
+</html>
