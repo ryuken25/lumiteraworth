@@ -16,7 +16,7 @@ Aplikasi web sederhana untuk menghitung nilai ekonomis item dalam game berbasis 
 
 ## Cara menggunakan
 
-1. Buka file `index.html` di browser modern.
+1. Buka [websitenya](https://ryuken25.github.io/lumiteraworth/).
 2. Masukkan nilai harga item (Price), nilai item (Worth), dan jumlah item (Quantity).
 3. Centang atau hilangkan centang pada opsi "3x Multiplier" sesuai kebutuhan.
 4. Hasil Wealth, Worth, Price, dan rasio W/P akan otomatis muncul di bawah input.
